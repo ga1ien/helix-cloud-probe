@@ -240,6 +240,7 @@ code {
       transparent 1px
     );
   background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(80% 60% at 50% 30%, #000 0%, transparent 75%);
   mask-image: radial-gradient(80% 60% at 50% 30%, #000 0%, transparent 75%);
 }
 
@@ -258,6 +259,7 @@ code {
   top: 0;
   z-index: 20;
   backdrop-filter: blur(14px);
+  background: var(--bg);
   background: color-mix(in oklab, var(--bg) 72%, transparent);
   border-bottom: 1px solid var(--card-brd);
 }

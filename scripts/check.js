@@ -53,6 +53,24 @@ function inlineScripts(html) {
   return bodies;
 }
 
+/** Crude balance check for the structural tags used on the page. */
+function unbalancedTags(html) {
+  const tags = [
+    'html', 'head', 'body', 'main', 'header', 'footer', 'section', 'nav', 'div',
+    'ul', 'ol', 'li', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'pre', 'button',
+    'h1', 'h2', 'h3', 'p', 'span', 'a', 'strong', 'em', 'code', 'caption'
+  ];
+  const stripped = html.replace(/<!--[\s\S]*?-->/g, '');
+  const bad = [];
+  tags.forEach((tag) => {
+    const open = (stripped.match(new RegExp('<' + tag + '(?=[\\s>/])', 'gi')) || []).length;
+    const close = (stripped.match(new RegExp('</' + tag + '\\s*>', 'gi')) || []).length;
+    const selfClosing = (stripped.match(new RegExp('<' + tag + '\\b[^>]*/>', 'gi')) || []).length;
+    if (open - selfClosing !== close) bad.push(tag + ': ' + open + ' open vs ' + close + ' close');
+  });
+  return bad;
+}
+
 async function main() {
   const pkgRaw = read('package.json');
   const pkg = JSON.parse(pkgRaw);
@@ -79,6 +97,8 @@ async function main() {
   check('index.html has no inline event handlers (on*=)', !/\son[a-z]+\s*=\s*"/i.test(html));
   check('index.html has no style="" attributes (strict CSP)', !/\sstyle\s*=\s*"/i.test(html));
   check('index.html makes no cross-origin asset requests', !/(?:src|href)\s*=\s*"https?:\/\//i.test(html));
+  const unbalanced = unbalancedTags(html);
+  check('index.html tags are balanced', unbalanced.length === 0, unbalanced.join(', '));
 
   group('Styles');
   check('styles.css has responsive media queries', /@media\s*\(/.test(css));
