@@ -1,0 +1,19 @@
+{
+  "name": "hello-kulti",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hello Kulti - polished responsive landing page served by a zero-dependency Node.js HTTP server on port 3000.",
+  "license": "MIT",
+  "main": "server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "check": "node scripts/check.js",
+    "test": "node scripts/check.js"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

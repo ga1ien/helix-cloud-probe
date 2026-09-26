@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hello Kulti — a tiny, polished hello</title>
+    <meta
+      name="description"
+      content="Hello Kulti: a responsive landing page served by a zero-dependency Node.js HTTP server on port 3000."
+    />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#0b1020" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script>
+      (function () {
+        var root = document.documentElement;
+        root.classList.add('has-js');
+        try {
+          var saved = localStorage.getItem('kulti-theme');
+          root.setAttribute('data-theme', saved === 'light' || saved === 'dark' ? saved : 'auto');
+        } catch (err) {
+          root.setAttribute('data-theme', 'auto');
+        }
+      })();
+    </script>
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="aurora" aria-hidden="true">
+      <span class="aurora__blob aurora__blob--one"></span>
+      <span class="aurora__blob aurora__blob--two"></span>
+      <span class="aurora__blob aurora__blob--three"></span>
+      <span class="aurora__grid"></span>
+    </div>
+
+    <header class="site-header">
+      <div class="shell site-header__inner">
+        <a class="brand" href="/" aria-label="Hello Kulti home">
+          <span class="brand__mark" aria-hidden="true">K</span>
+          <span class="brand__text">Hello&nbsp;Kulti</span>
+        </a>
+
+        <nav class="site-nav" aria-label="Primary">
+          <a href="#features">Features</a>
+          <a href="#stack">Stack</a>
+          <a href="#api">API</a>
+        </nav>
+
+        <div class="site-header__actions">
+          <button
+            class="theme-toggle"
+            type="button"
+            id="theme-toggle"
+            aria-pressed="false"
+            aria-label="Switch to light theme"
+          >
+            <span class="theme-toggle__icon" aria-hidden="true">◐</span>
+            <span class="theme-toggle__text" data-theme-label>Dark</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="shell">
+      <section class="hero" aria-labelledby="hero-title">
+        <p class="eyebrow" id="greeting-chip" data-greeting>Hello, friend</p>
+
+        <h1 class="hero__title" id="hero-title">
+          Hello <span class="grad">Kulti</span>
+        </h1>
+
+        <p class="hero__lede">
+          A responsive, accessible greeting page served by a
+          <strong>zero-dependency</strong> Node.js HTTP server on
+          <code>localhost:3000</code>. No frameworks, no bundler, no build step — just
+          the platform.
+        </p>
+
+        <div class="hero__cta">
+          <a class="btn btn--primary" href="#api">See the API</a>
+          <button class="btn btn--ghost" type="button" id="copy-curl" data-copy="curl -s localhost:3000/api/greeting">
+            Copy <code>curl</code>
+          </button>
+        </div>
+
+        <ul class="pills" aria-label="Highlights">
+          <li class="pill">
+            <span class="pill__dot pill__dot--ok" data-health-dot aria-hidden="true"></span>
+            <span data-health-text>Checking server…</span>
+          </li>
+          <li class="pill">0 dependencies</li>
+          <li class="pill">Port 3000</li>
+          <li class="pill">Responsive 320px+</li>
+        </ul>
+      </section>
+
+      <section id="features" class="section" aria-labelledby="features-title">
+        <h2 class="section__title" id="features-title">What is in the box</h2>
+        <p class="section__lede">Small surface area, deliberate details.</p>
+
+        <ul class="cards" role="list">
+          <li class="card reveal">
+            <span class="card__icon" aria-hidden="true">⚡</span>
+            <h3>Zero dependencies</h3>
+            <p>
+              <code>node:http</code>, <code>node:fs</code>, <code>node:path</code> — nothing
+              to install, nothing to audit, nothing to rot.
+            </p>
+          </li>
+          <li class="card reveal">
+            <span class="card__icon" aria-hidden="true">📱</span>
+            <h3>Responsive by default</h3>
+            <p>
+              Fluid type with <code>clamp()</code>, grid auto-fit cards and a single
+              mobile-first stylesheet that holds up from 320&nbsp;px to ultrawide.
+            </p>
+          </li>
+          <li class="card reveal">
+            <span class="card__icon" aria-hidden="true">🔒</span>
+            <h3>Safe by construction</h3>
+            <p>
+              Static files are path-contained, so <code>../</code> traversal attempts get a
+              clean 404 instead of your server source.
+            </p>
+          </li>
+          <li class="card reveal">
+            <span class="card__icon" aria-hidden="true">♿</span>
+            <h3>Accessible</h3>
+            <p>
+              Semantic landmarks, a skip link, visible focus rings, live status text and
+              <code>prefers-reduced-motion</code> support.
+            </p>
+          </li>
+          <li class="card reveal">
+            <span class="card__icon" aria-hidden="true">🌗</span>
+            <h3>Theming</h3>
+            <p>
+              Dark and light palettes follow the OS, and the in-page toggle remembers your
+              choice in <code>localStorage</code>.
+            </p>
+          </li>
+          <li class="card reveal">
+            <span class="card__icon" aria-hidden="true">✅</span>
+            <h3>Checked</h3>
+            <p>
+              <code>npm test</code> boots the server on an ephemeral port and asserts
+              routes, headers, content types and traversal safety.
+            </p>
+          </li>
+        </ul>
+      </section>
+
+      <section id="stack" class="section" aria-labelledby="stack-title">
+        <h2 class="section__title" id="stack-title">The whole stack</h2>
+        <div class="split">
+          <div class="panel">
+            <h3 class="panel__title">Run it</h3>
+            <pre class="code" tabindex="0"><code>npm start
+# Hello Kulti running at http://localhost:3000</code></pre>
+            <p class="panel__note">
+              Zero install step. Any Node.js ≥ 18 works; <code>PORT</code> and
+              <code>HOST</code> are configurable env vars.
+            </p>
+          </div>
+
+          <div class="panel">
+            <h3 class="panel__title">Layout</h3>
+            <pre class="code" tabindex="0"><code>server.js          zero-dep HTTP server
+public/index.html  markup
+public/styles.css  responsive styles
+public/app.js      progressive enhancement</code></pre>
+            <p class="panel__note">Everything the browser needs ships from one folder.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="api" class="section" aria-labelledby="api-title">
+        <h2 class="section__title" id="api-title">Endpoints</h2>
+        <div class="table-wrap">
+          <table class="api-table">
+            <caption class="visually-hidden">Available HTTP endpoints</caption>
+            <thead>
+              <tr>
+                <th scope="col">Method</th>
+                <th scope="col">Path</th>
+                <th scope="col">Returns</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="verb verb--get">GET</span></td>
+                <td><code>/</code></td>
+                <td>This page</td>
+              </tr>
+              <tr>
+                <td><span class="verb verb--get">GET</span></td>
+                <td><code>/health</code></td>
+                <td>JSON liveness probe with uptime</td>
+              </tr>
+              <tr>
+                <td><span class="verb verb--get">GET</span></td>
+                <td><code>/api/greeting</code></td>
+                <td><code>{ "message": "Hello Kulti", … }</code></td>
+              </tr>
+              <tr>
+                <td><span class="verb verb--get">GET</span></td>
+                <td><code>/styles.css</code>, <code>/app.js</code></td>
+                <td>Static assets with ETag caching</td>
+              </tr>
+              <tr>
+                <td><span class="verb verb--any">*</span></td>
+                <td>anything else</td>
+                <td>404 (non-GET/HEAD → 405)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell site-footer__inner">
+        <p>Built for the Kulti session — no dependencies, no build step.</p>
+        <p class="site-footer__meta">
+          <span data-year>2025</span> · Node.js core modules only
+        </p>
+      </div>
+    </footer>
+
+    <p class="toast" id="toast" role="status" aria-live="polite" hidden></p>
+  </body>
+</html>
