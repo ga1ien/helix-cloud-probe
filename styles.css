@@ -1,0 +1,68 @@
+/* ==========================================================================
+   Hello Kulti demo — visible keyboard focus styles
+   ==========================================================================
+   Goal: a clearly visible, high-contrast focus indicator for keyboard
+   navigation, without changing the look of the page for mouse users.
+
+   Interactive elements in the demo that receive this ring:
+     - links                a[href], area[href]
+     - buttons              button, [role="button"]
+     - text/checkbox inputs input (text, search, checkbox, radio, ...)
+     - selects              select
+     - textareas            textarea
+     - disclosure widgets   summary
+     - custom widgets       any element with a tabindex that is reachable
+
+   The ring is applied with :focus-visible so it appears for keyboard (and
+   other non-pointer) focus only. Existing outlines are never removed.
+   ========================================================================== */
+
+:root {
+  /* #0b5fff on #fff = 5.1:1; on #1b1b1b = 3.4:1 (WCAG non-text contrast). */
+  --kulti-focus-color: #0b5fff;
+  --kulti-focus-ring-width: 3px;
+  --kulti-focus-ring-offset: 2px;
+}
+
+/* Keyboard focus ring. Kept as an explicit selector list (rather than :is())
+   so each element type is greppable and the rule is easy to audit/extend. */
+a[href]:focus-visible,
+area[href]:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[role="button"]:focus-visible,
+[role="link"]:focus-visible,
+[tabindex]:not([tabindex="-1"]):focus-visible {
+  outline: var(--kulti-focus-ring-width) solid var(--kulti-focus-color);
+  outline-offset: var(--kulti-focus-ring-offset);
+}
+
+/* Windows High Contrast / forced-colors: use the system highlight colour so
+   the ring keeps a guaranteed contrast ratio on the user's colour scheme. */
+@media (forced-colors: active) {
+  :root {
+    --kulti-focus-color: Highlight;
+  }
+}
+
+/* Fallback for the rare browser without :focus-visible support: fall back to
+   :focus (mouse users on those browsers simply get the ring too). The native
+   outline is never suppressed, so the user-agent ring is always a last resort. */
+@supports not selector(:focus-visible) {
+  a[href]:focus,
+  area[href]:focus,
+  button:focus,
+  input:focus,
+  select:focus,
+  textarea:focus,
+  summary:focus,
+  [role="button"]:focus,
+  [role="link"]:focus,
+  [tabindex]:not([tabindex="-1"]):focus {
+    outline: var(--kulti-focus-ring-width) solid var(--kulti-focus-color);
+    outline-offset: var(--kulti-focus-ring-offset);
+  }
+}
