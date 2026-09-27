@@ -5,6 +5,6 @@
   "description": "Hello Kulti accessibility demo (keyboard focus + screen-reader status announcements).",
   "type": "module",
   "scripts": {
-    "test": "node --test src/*.test.js styles.test.mjs"
+    "test": "node --test src/*.test.js test/*.test.js styles.test.mjs"
   }
 }
