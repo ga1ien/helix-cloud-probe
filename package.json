@@ -1,0 +1,10 @@
+{
+  "name": "hello-kulti-demo",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Hello Kulti accessibility demo (keyboard focus + screen-reader status announcements).",
+  "type": "module",
+  "scripts": {
+    "test": "node --test src/"
+  }
+}

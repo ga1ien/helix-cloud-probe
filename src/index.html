@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hello Kulti</title>
+    <!-- Focus ring for keyboard users ships in styles.css at the repo root. -->
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Hello Kulti</h1>
+      <p>Type your name and Kulti will greet you.</p>
+
+      <form id="hello-form">
+        <label for="name">Your name</label>
+        <input id="name" name="name" type="text" autocomplete="name" />
+        <button type="submit">Say hello</button>
+      </form>
+
+      <p>
+        <button type="button" id="load-greeting">Load greeting (async)</button>
+      </p>
+
+      <!-- Visible output only: it is NOT a live region, so the announcement
+           below is the single thing a screen reader reads out. -->
+      <p id="greeting-output"></p>
+
+      <!-- Single announcement channel for the whole demo. -->
+      <div
+        id="kulti-status"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      ></div>
+      <p id="status-hint">
+        Status updates (results and errors) are announced to screen readers.
+      </p>
+    </main>
+
+    <script type="module">
+      import { announce } from './announce.js';
+
+      const form = document.getElementById('hello-form');
+      const nameInput = document.getElementById('name');
+      const output = document.getElementById('greeting-output');
+      const loadButton = document.getElementById('load-greeting');
+
+      const fakeFetch = (name) =>
+        new Promise((resolve, reject) => {
+          setTimeout(() => {
+            if (!name) reject(new Error('Please enter your name first.'));
+            else resolve(`Hello, ${name}! Welcome to Kulti.`);
+          }, 600);
+        });
+
+      function showGreeting(text) {
+        output.textContent = text;
+        announce(text);
+      }
+
+      // Form submission: success is polite, validation failure is an alert.
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const name = nameInput.value.trim();
+
+        if (!name) {
+          nameInput.setAttribute('aria-invalid', 'true');
+          nameInput.focus();
+          announce('Please enter your name before saying hello.', {
+            priority: 'assertive',
+          });
+          return;
+        }
+
+        nameInput.removeAttribute('aria-invalid');
+        showGreeting(`Hello, ${name}! Nice to meet you.`);
+      });
+
+      // Async result: announce that work started, then the outcome or the error.
+      loadButton.addEventListener('click', async () => {
+        loadButton.disabled = true;
+        announce('Loading greeting, please wait…');
+
+        try {
+          const greeting = await fakeFetch(nameInput.value.trim());
+          showGreeting(greeting);
+        } catch (error) {
+          output.textContent = '';
+          announce(error.message, { priority: 'assertive' });
+        } finally {
+          loadButton.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>
