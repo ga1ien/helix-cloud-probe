@@ -1,0 +1,10 @@
+{
+  "name": "helix-cloud-probe",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Throwaway Helix door=cloud probe. Not a product.",
+  "main": "greet.js",
+  "scripts": {
+    "test": "node --test greet.test.js"
+  }
+}
